@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>कोल्हान न्यूज़ झारखंड - आपकी आवाज़, आपके क्षेत्र की खबरें</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #2e7d32, #4caf50);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M10,10 L20,5 L30,10 L40,5 L50,10 L60,5 L70,10 L80,5 L90,10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/></svg>');
+            background-repeat: repeat;
+            opacity: 0.3;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo h1 {
+            font-size: 2.5em;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .logo h1::before {
+            content: "🌿";
+            position: absolute;
+            left: -40px;
+            top: 0;
+            font-size: 0.8em;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .logo h1::after {
+            content: "🌿";
+            position: absolute;
+            right: -40px;
+            top: 0;
+            font-size: 0.8em;
+            animation: float 3s ease-in-out infinite 1.5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .tagline {
+            font-size: 1.1em;
+            margin-top: 5px;
+            opacity: 0.9;
+        }
+
+        .date-time {
+            text-align: right;
+            font-size: 0.9em;
+        }
+
+        /* Navigation */
+        nav {
+            background: #1b5e20;
+            padding: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        nav::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.05) 10px,
+                rgba(255,255,255,0.05) 20px
+            );
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            position: relative;
+        }
+
+        nav a::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 8px;
+            width: 4px;
+            height: 4px;
+            background: #81c784;
+            border-radius: 50%;
+            transform: translateY(-50%);
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            background: #388e3c;
+            border-bottom-color: #ffeb3b;
+            transform: translateY(-2px);
+        }
+
+        nav a:hover::before {
+            background: #ffeb3b;
+            transform: translateY(-50%) scale(1.5);
+        }
+
+        /* Breaking News */
+        .breaking-news {
+            background: #558b2f;
+            color: white;
+            padding: 10px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .breaking-news::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50"><circle cx="25" cy="25" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: 50px 50px;
+        }
+
+        .breaking-content {
+            display: flex;
+            align-items: center;
+            animation: scroll-text 30s linear infinite;
+            position: relative;
+            z-index: 2;
+        }
+
+        .breaking-label {
+            background: #33691e;
+            padding: 5px 15px;
+            margin-right: 20px;
+            font-weight: bold;
+            border-radius: 20px;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .breaking-label::before {
+            content: "🔥";
+            margin-right: 5px;
+        }
+
+        @keyframes scroll-text {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .news-section {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 3px solid #a5d6a7;
+            position: relative;
+        }
+
+        .news-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #2e7d32, #4caf50, #81c784, #4caf50, #2e7d32);
+            background-size: 200% 100%;
+            animation: tribal-border 4s ease-in-out infinite;
+        }
+
+        @keyframes tribal-border {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #4caf50, #66bb6a);
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.3em;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .section-header::before {
+            content: "🌱";
+            margin-right: 10px;
+        }
+
+        .section-header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: repeating-linear-gradient(
+                90deg,
+                #2e7d32 0px,
+                #2e7d32 10px,
+                #4caf50 10px,
+                #4caf50 20px
+            );
+        }
+
+        .news-item {
+            padding: 20px;
+            border-bottom: 1px solid #e8f5e8;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .news-item::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #4caf50, #81c784);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .news-item:hover {
+            background: #f1f8e9;
+            transform: translateX(5px);
+        }
+
+        .news-item:hover::before {
+            opacity: 1;
+        }
+
+        .news-item:last-child {
+            border-bottom: none;
+        }
+
+        .news-item h3 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .news-item h3::before {
+            content: "🍃";
+            margin-right: 8px;
+            font-size: 0.8em;
+        }
+
+        .news-item h3:hover {
+            color: #4caf50;
+        }
+
+        .news-meta {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .news-content {
+            color: #555;
+            line-height: 1.7;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-widget {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 2px solid #c8e6c9;
+            position: relative;
+        }
+
+        .sidebar-widget::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M0,0 Q50,25 100,0 L100,100 Q50,75 0,100 Z" fill="rgba(76,175,80,0.03)"/></svg>');
+            pointer-events: none;
+        }
+
+        .popular-news ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .popular-news li {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e8f5e8;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .popular-news li:hover {
+            background: #f1f8e9;
+            transform: translateX(5px);
+        }
+
+        .popular-news li:last-child {
+            border-bottom: none;
+        }
+
+        .popular-news li::before {
+            content: "🌿";
+            margin-right: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .popular-news li:hover::before {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        /* Weather Widget */
+        .weather-widget {
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .weather-temp {
+            font-size: 2em;
+            font-weight: bold;
+            color: #4caf50;
+            margin: 10px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #1b5e20, #2e7d32);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><path d="M0,100 Q50,50 100,100 T200,100 L200,200 L0,200 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+            background-size: 400px 200px;
+            animation: wave 10s linear infinite;
+        }
+
+        @keyframes wave {
+            0% { background-position: 0 0; }
+            100% { background-position: 400px 0; }
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 15px;
+            color: #a5d6a7;
+            position: relative;
+        }
+
+        .footer-section h3::before {
+            content: "🌱";
+            margin-right: 8px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .footer-section li::before {
+            content: "▶";
+            color: #81c784;
+            font-size: 0.8em;
+            margin-right: 8px;
+        }
+
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            opacity: 1;
+            color: #a5d6a7;
+            transform: translateX(5px);
+        }
+
+        .copyright {
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 20px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .logo h1 {
+                font-size: 2em;
+            }
+
+            .nav-container {
+                flex-direction: column;
+            }
+
+            nav a {
+                text-align: center;
+                padding: 12px;
+            }
+
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>कोल्हान न्यूज़ झारखंड</h1>
+                    <p class="tagline">आपकी आवाज़, आपके क्षेत्र की खबरें</p>
+                </div>
+                <div class="date-time">
+                    <p id="current-date"></p>
+                    <p id="current-time"></p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <div class="nav-container">
+                <a href="#" onclick="showSection('home')">होम</a>
+                <a href="#" onclick="showSection('local')">स्थानीय</a>
+                <a href="#" onclick="showSection('politics')">राजनीति</a>
+                <a href="#" onclick="showSection('education')">शिक्षा</a>
+                <a href="#" onclick="showSection('sports')">खेल</a>
+                <a href="#" onclick="showSection('culture')">संस्कृति</a>
+                <a href="#" onclick="showSection('contact')">संपर्क करें</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="breaking-news">
+        <div class="container">
+            <div class="breaking-content">
+                <span class="breaking-label">ब्रेकिंग न्यूज़</span>
+                <span>झारखंड सरकार ने कोल्हान क्षेत्र के विकास के लिए नई योजना की घोषणा की | मुख्यमंत्री आज चाईबासा का दौरा करेंगे</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="news-section">
+                <div class="section-header">
+                    ताज़ा खबरें
+                </div>
+                <div class="news-item">
+                    <h3>चाईबासा में जनजातीय महोत्सव का भव्य आयोजन</h3>
+                    <div class="news-meta">📅 18 जुलाई, 2025 | 📍 चाईबासा</div>
+                    <div class="news-content">
+                        कोल्हान क्षेत्र के लोगों ने पारंपरिक नृत्य और संस्कृति का शानदार प्रदर्शन किया। इस महोत्सव में हो, मुंडा, और संथाल समुदाय के कलाकारों ने अपनी पारंपरिक कलाओं का प्रदर्शन किया। हजारों की संख्या में लोगों ने इस कार्यक्रम में भाग लिया।
+                    </div>
+                </div>
+                <div class="news-item">
+                    <h3>झारखंड बोर्ड के नतीजे घोषित, कोल्हान के छात्रों का दबदबा</h3>
+                    <div class="news-meta">📅 17 जुलाई, 2025 | 📍 रांची</div>
+                    <div class="news-content">
+                        इस बार की मेरिट लिस्ट में कोल्हान के छात्रों का जबरदस्त प्रदर्शन रहा है। टॉप 10 में से 6 छात्र कोल्हान क्षेत्र से हैं। शिक्षा विभाग ने इस उपलब्धि के लिए स्थानीय स्कूलों और शिक्षकों की प्रशंसा की है।
+                    </div>
+                </div>
+                <div class="news-item">
+                    <h3>कोल्हान में सड़क निर्माण कार्य में तेजी</h3>
+                    <div class="news-meta">📅 16 जुलाई, 2025 | 📍 जमशेदपुर</div>
+                    <div class="news-content">
+                        राज्य सरकार ने कोल्हान क्षेत्र में सड़क निर्माण कार्यों में तेजी लाने के निर्देश दिए हैं। नई सड़कों से ग्रामीण क्षेत्रों की कनेक्टिविटी बेहतर होगी और आर्थिक विकास में मदद मिलेगी।
+                    </div>
+                </div>
+                <div class="news-item">
+                    <h3>स्थानीय किसानों के लिए नई फसल बीमा योजना</h3>
+                    <div class="news-meta">📅 15 जुलाई, 2025 | 📍 कोल्हान</div>
+                    <div class="news-content">
+                        कोल्हान क्षेत्र के किसानों के लिए नई फसल बीमा योजना शुरू की गई है। इस योजना से किसानों को प्राकृतिक आपदाओं से होने वाले नुकसान से सुरक्षा मिलेगी। सरकार ने इसके लिए विशेष बजट का आवंटन किया है।
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="sidebar-widget popular-news">
+                    <div class="section-header">
+                        लोकप्रिय खबरें
+                    </div>
+                    <ul>
+                        <li>हो भाषा को संविधान में स्थान दिलाने की मांग तेज</li>
+                        <li>कोल्हान में बिजली संकट, समाधान की दिशा में प्रयास</li>
+                        <li>महिलाओं की सुरक्षा पर ग्राम पंचायत में विशेष चर्चा</li>
+                        <li>खनन क्षेत्र में नई नौकरियों की संभावना</li>
+                        <li>स्वास्थ्य सेवाओं में सुधार की योजना</li>
+                        <li>कृषि तकनीक में नवाचार के प्रयास</li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-widget weather-widget">
+                    <div class="section-header">
+                        मौसम अपडेट
+                    </div>
+                    <div>
+                        <p><strong>जमशेदपुर</strong></p>
+                        <div class="weather-temp">28°C</div>
+                        <p>🌤️ बादल छाए हुए</p>
+                        <p>आर्द्रता: 75%</p>
+                    </div>
+                </div>
+
+                <div class="sidebar-widget">
+                    <div class="section-header">
+                        त्वरित लिंक
+                    </div>
+                    <div style="padding: 20px; position: relative; z-index: 2;">
+                        <p><a href="#" style="color: #4caf50; text-decoration: none; display: block; margin-bottom: 8px; transition: all 0.3s ease;">📞 आपातकालीन नंबर</a></p>
+                        <p><a href="#" style="color: #4caf50; text-decoration: none; display: block; margin-bottom: 8px; transition: all 0.3s ease;">🏥 स्वास्थ्य सेवाएं</a></p>
+                        <p><a href="#" style="color: #4caf50; text-decoration: none; display: block; margin-bottom: 8px; transition: all 0.3s ease;">🚌 परिवहन सेवा</a></p>
+                        <p><a href="#" style="color: #4caf50; text-decoration: none; display: block; margin-bottom: 8px; transition: all 0.3s ease;">📚 शिक्षा पोर्टल</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>संपर्क जानकारी</h3>
+                    <ul>
+                        <li>📧 news@kolhannews.com</li>
+                        <li>📞 +91 94xxx xxxxx</li>
+                        <li>📍 चाईबासा, झारखंड</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>श्रेणियां</h3>
+                    <ul>
+                        <li><a href="#">स्थानीय समाचार</a></li>
+                        <li><a href="#">राजनीति</a></li>
+                        <li><a href="#">शिक्षा</a></li>
+                        <li><a href="#">खेल</a></li>
+                        <li><a href="#">संस्कृति</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>सोशल मीडिया</h3>
+                    <ul>
+                        <li><a href="#">📘 Facebook</a></li>
+                        <li><a href="#">🐦 Twitter</a></li>
+                        <li><a href="#">📸 Instagram</a></li>
+                        <li><a href="#">📺 YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 कोल्हान न्यूज़ झारखंड | सभी अधिकार सुरक्षित</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Date and Time Update
+        function updateDateTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            
+            document.getElementById('current-date').textContent = 
+                now.toLocaleDateString('hi-IN', options);
+            
+            document.getElementById('current-time').textContent = 
+                now.toLocaleTimeString('hi-IN');
+        }
+
+        // Navigation Function
+        function showSection(section) {
+            // This is a placeholder for section switching functionality
+            console.log('Switching to section:', section);
+            // In a real implementation, this would load different content
+        }
+
+        // Initialize
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+
+        // Add smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
